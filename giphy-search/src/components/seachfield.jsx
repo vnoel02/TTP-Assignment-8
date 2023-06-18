@@ -35,7 +35,7 @@ const SearchField = (props) => {
                     return (
                         <div key= {gif.id} >
                         
-                        <img src = {gif.images.fixed_height.url} alt="gif" autoPlay loop inline="true"></img>
+                        <img id="display" src = {gif.images.fixed_height.url} alt="gif" autoPlay loop inline="true"></img>
                         </div>
                     );
                     
