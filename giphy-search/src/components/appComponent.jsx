@@ -1,14 +1,17 @@
 //just contain trending gifs on load as default
 import SearchField from "./seachfield";
 import GifCard from "./gifCard";
-import {fetchGif} from "./seachfield";
+import RandomGifCard from "./randomGifCard";
+import "./appComponent";
+
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
 const AppComponent = (props) => {
     const [trending, setTrending] = useState([]);
     const [search, setSearch] = useState([]);
+    const [random, setRandom] = useState({});
     // const [term, setTerm] = useState("");
-
+    let isRandomCalled = false;
 
     // Fetchs and 'loads' trending images
     useEffect(() => {
@@ -16,6 +19,8 @@ const AppComponent = (props) => {
             try {
             const list = await axios.get("http://api.giphy.com/v1/gifs/trending?api_key=ATQhfET4go8lHY0DIzHYlQpeRtEYSttj&limit=10");
             setTrending(list.data.data);
+            setSearch([]);
+            setRandom({});
             console.log(list);
             } catch (error) {
                 console.error(error);
@@ -32,6 +37,7 @@ const AppComponent = (props) => {
             console.log(arr);
             setSearch(arr);
             setTrending([]);
+            setRandom({});
         } catch (error){
             console.error(error);
         } 
@@ -44,28 +50,43 @@ const AppComponent = (props) => {
         fetchSearch(search);
         console.log(search);
     }
-    
+
+    // On click fetch random gif data
+    async function fetchRandom() {
+        try {
+            const gifData = await axios.get("http://api.giphy.com/v1/gifs/random?api_key=ATQhfET4go8lHY0DIzHYlQpeRtEYSttj");
+
+            setRandom(gifData.data.data);
+            console.log(gifData);
+            setTrending([]);
+            setSearch([]);
+            isRandomCalled = true;
+        } catch (error){
+            console.error(error);
+        } 
+    }
+    //Displays search form
     return ( 
         <div>
             <div>
-                {/* <SearchField  onSubmit={handleSubmit}/> */}
-                <h1>Giphy Search</h1>
-                <form onSubmit={handleSubmit}> 
+                <h1 id="title"> Giphy Search </h1>
+                <form id="searchfield" onSubmit={handleSubmit}> 
                     <label>Search</label>
                     <input type="text"></input>
                     <button type = "submit">Search</button>
+                    <button onClick= {fetchRandom}> Randomize Gif</button>
                 </form>
-                <div>
-                    
-                </div> 
                 
             </div>
             <div>
                 {/* if clicked display search, if not display trending */}
                 {/* {isClicked? (<GifCard data={search}/>):(<GifCard data={trending} />)} */}
+                
                 <GifCard data={search} />
                 <GifCard data={trending} />
-            
+                {/* <RandomGifCard data={random} /> */}
+                {random.url? <RandomGifCard data={random} /> : "" }
+                
             </div> 
         </div>
     );
