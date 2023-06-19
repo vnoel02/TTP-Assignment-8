@@ -1,7 +1,7 @@
 //just contain trending gifs on load as default
 import SearchField from "./seachfield";
-import GifCard from "./gifCard";
-import RandomGifCard from "./randomGifCard";
+import Gif_Load from "./gif_load";
+import RandomGif_Load from "./randomgif_load";
 import "./appComponent";
 
 import React, {useState, useEffect} from 'react';
@@ -10,8 +10,6 @@ const AppComponent = (props) => {
     const [trending, setTrending] = useState([]);
     const [search, setSearch] = useState([]);
     const [random, setRandom] = useState({});
-    // const [term, setTerm] = useState("");
-    let isRandomCalled = false;
 
     // Fetchs and 'loads' trending images
     useEffect(() => {
@@ -55,12 +53,10 @@ const AppComponent = (props) => {
     async function fetchRandom() {
         try {
             const gifData = await axios.get("http://api.giphy.com/v1/gifs/random?api_key=ATQhfET4go8lHY0DIzHYlQpeRtEYSttj");
-
             setRandom(gifData.data.data);
             console.log(gifData);
             setTrending([]);
             setSearch([]);
-            isRandomCalled = true;
         } catch (error){
             console.error(error);
         } 
@@ -74,19 +70,14 @@ const AppComponent = (props) => {
                     <label>Search</label>
                     <input type="text"></input>
                     <button type = "submit">Search</button>
-                    <button onClick= {fetchRandom}> Randomize Gif</button>
+                    
                 </form>
-                
+                <button onClick= {fetchRandom}> Randomize Gif</button>
             </div>
-            <div>
-                {/* if clicked display search, if not display trending */}
-                {/* {isClicked? (<GifCard data={search}/>):(<GifCard data={trending} />)} */}
-                
-                <GifCard data={search} />
-                <GifCard data={trending} />
-                {/* <RandomGifCard data={random} /> */}
-                {random.url? <RandomGifCard data={random} /> : "" }
-                
+            <div>    
+                <Gif_Load data={search} />
+                <Gif_Load data={trending} />
+                {random.url? <RandomGif_Load data={random} /> : "" }
             </div> 
         </div>
     );
