@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import AppComponent from './appComponent';
 import axios from 'axios';
-import GifCard from './gifCard';
+import GifCard from './gif_load';
 
 const SearchField = (props) => {
     // const [gifList, setGifList] = useState([]);
@@ -25,12 +25,16 @@ const SearchField = (props) => {
     // }
     return (  
         <div>
-               <h1> Giphy Search</h1>
-            <form> 
-                <input type="text"></input>
-                <button type = "submit">Search</button>
-            </form>
-        </div>
+        {/* <SearchField  onSubmit={handleSubmit}/> */}
+        <h1>Giphy Search</h1>
+        <form id="search" onSubmit={props.handleSubmit}> 
+            <label>Search</label>
+            <input type="text"></input>
+            <button type = "submit">Search</button>
+            <button onClick= {props.fetchRandom}> Randomize Gif</button>
+        </form>
+        
+    </div>
     );         
 }
 

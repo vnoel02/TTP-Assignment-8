@@ -1,4 +1,4 @@
-import GifCard from './components/gifCard.jsx';
+import GifCard from './components/gif_load.jsx';
 import './App.css';
 import AppComponent from './components/appComponent.jsx';
 import SearchField from './components/seachfield.jsx';
