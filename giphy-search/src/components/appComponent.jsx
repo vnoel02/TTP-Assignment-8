@@ -17,7 +17,7 @@ const AppComponent = (props) => {
     useEffect(() => {
         async function fetchTrending() {
             try {
-            const list = await axios.get("http://api.giphy.com/v1/gifs/trending?api_key=ATQhfET4go8lHY0DIzHYlQpeRtEYSttj&limit=10");
+            const list = await axios.get("http://api.giphy.com/v1/gifs/trending?api_key=ATQhfET4go8lHY0DIzHYlQpeRtEYSttj&limit=50");
             setTrending(list.data.data);
             setSearch([]);
             setRandom({});
@@ -32,7 +32,7 @@ const AppComponent = (props) => {
     // Fetches gifs based on search, changes state of trending gifs so they are no longer displayed
     async function fetchSearch(search) {
         try {
-            const gifData = await axios.get("https://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=ATQhfET4go8lHY0DIzHYlQpeRtEYSttj&limit=10");
+            const gifData = await axios.get("https://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=ATQhfET4go8lHY0DIzHYlQpeRtEYSttj&limit=50");
             const arr = gifData.data.data;
             console.log(arr);
             setSearch(arr);
@@ -67,18 +67,18 @@ const AppComponent = (props) => {
     }
     //Displays search form
     return ( 
-        <div>
+        <div className="header">
             <div>
                 <h1 id="title"> Giphy Search </h1>
                 <form id="searchfield" onSubmit={handleSubmit}> 
-                    <label>Search</label>
+                    <label id="search-disc"> Search for a GIF</label>
                     <input type="text"></input>
                     <button type = "submit">Search</button>
                     <button onClick= {fetchRandom}> Randomize Gif</button>
                 </form>
                 
             </div>
-            <div>
+            
                 {/* if clicked display search, if not display trending */}
                 {/* {isClicked? (<GifCard data={search}/>):(<GifCard data={trending} />)} */}
                 
@@ -87,7 +87,7 @@ const AppComponent = (props) => {
                 {/* <RandomGifCard data={random} /> */}
                 {random.url? <RandomGifCard data={random} /> : "" }
                 
-            </div> 
+             
         </div>
     );
 }
